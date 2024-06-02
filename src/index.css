@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+    @apply bg-white shadow-md rounded-lg overflow-hidden p-5;
+}
+
+.btn {
+    @apply text-white font-semibold text-sm py-2 px-3 rounded-md shadow-sm;
+}
+
+.btn-blue {
+    @apply bg-blue-500 hover:bg-blue-700;
+}
+
+.btn-green {
+    @apply bg-green-500 hover:bg-green-700;
+}
