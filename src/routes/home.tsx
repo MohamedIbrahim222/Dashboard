@@ -9,7 +9,10 @@ export default function Home() {
   return (
     <div>
       <Drawer open={drawerOpen} setOpen={setDrawerOpen}>
-        <p>test</p>
+        <div>
+          <button className="btn btn-green block w-full mb-3">From excel</button>
+          <Link to={'/quiz'} className="btn btn-blue block w-full text-center">Generate from bank</Link>
+        </div>
       </Drawer>
       <Modal open={modalOpen} setOpen={setModalOpen} title="Create quiz">
         <div className="flex justify-center mt-3">
