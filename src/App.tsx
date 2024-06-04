@@ -3,6 +3,7 @@ import Exames from "./routes/exames";
 import Root from "./routes/root";
 import Home from "./routes/home";
 import Quiz from "./routes/quiz";
+import PastExams from "./routes/past-exams";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "quiz",
         element: <Quiz />,
+      },
+      {
+        path: ":id/past-exams",
+        element: <PastExams />,
       }
     ],
   },
