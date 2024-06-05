@@ -4,6 +4,8 @@ import Root from "./routes/root";
 import Home from "./routes/home";
 import Quiz from "./routes/quiz";
 import PastExams from "./routes/past-exams";
+import { Login } from "./routes/login";
+import Reset from "./routes/reset";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: ":id/past-exams",
         element: <PastExams />,
+      },
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "reset",
+        element: <Reset />
       }
     ],
   },

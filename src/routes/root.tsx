@@ -70,17 +70,10 @@ export function Root() {
               >
                 Home
               </Link>
-              <Link
-                className="py-3 ps-px sm:px-3 sm:py-6 font-medium text-gray-500 hover:text-gray-400"
-                to="/courses"
-              >
-                Courses
-              </Link>
-
               <div className="flex items-center gap-x-2 py-2 sm:py-0 sm:ms-auto">
-                <a
+                <Link
                   className="flex items-center gap-x-2 font-medium text-gray-500 hover:text-blue-600"
-                  href="#"
+                  to="/login"
                 >
                   <svg
                     className="flex-shrink-0 size-4"
@@ -98,7 +91,7 @@ export function Root() {
                     <circle cx="12" cy="7" r="4" />
                   </svg>
                   Log in
-                </a>
+                </Link>
               </div>
             </div>
           </div>
