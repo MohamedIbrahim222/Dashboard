@@ -13,86 +13,128 @@ import {
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const [file, setFile] = useState(null);
+  const fileInputRef = useState(null);
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileSelect = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleClickUpload = () => {
+    fileInputRef.current.click();
+  };
 
   return (
     <div>
       <Drawer open={drawerOpen} setOpen={setDrawerOpen}>
         <div>
-          <button className="btn btn-green block w-full mb-3">From excel</button>
-          <Link to={'/quiz'} className="btn btn-blue block w-full text-center">Generate from bank</Link>
+          <button
+            className="btn btn-green block w-full mb-3"
+            onClick={() => setModalOpen(true)}
+          >
+            From excel
+          </button>
+          <Link to={"/quiz"} className="btn btn-blue block w-full text-center">
+            Generate from bank
+          </Link>
         </div>
       </Drawer>
       <Modal open={modalOpen} setOpen={setModalOpen} title="Create quiz">
-        <div className="flex justify-center mt-3">
-          <Link
-            type="button"
-            className="btn btn-blue mr-3"
-            to={'/10/past-exams'}
+        <div className="mt-3">
+          <div
+            className={`mb-3 border-2 border-dashed border-gray-300 p-4 ${
+              dragActive ? "border-blue-500" : ""
+            }`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+            onClick={handleClickUpload}
           >
-            Show past exames
-          </Link>
-          <button
-            type="button"
-            className="btn btn-green"
-            onClick={() => {
-                setDrawerOpen(true);
-                setModalOpen(false);
-            }}
-          >
-            Create new
+            {file ? (
+              <p>{file.name}</p>
+            ) : (
+              <p>Drag and drop a file here, or click to select a file</p>
+            )}
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileSelect}
+            />
+          </div>
+          <label className="block mb-3">
+            <input type="checkbox" />
+            <span className="ml-2 font-semibold">save in bank</span>
+          </label>
+          <button type="button" className="btn btn-blue">
+            Upload
           </button>
         </div>
       </Modal>
       <div className="flex justify-between gap-3">
-        {/* <button
-          onClick={() => setModalOpen(true)}
-          type="button"
-          className="inline-flex items-center gap-x-2 py-3 px-4 text-sm text-start font-medium border border-gray-200 text-blue-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg focus:z-10 disabled:opacity-50 disabled:pointer-events-none"
+        <Card
+          className="overflow-hidden max-w-xs cursor-pointer"
+          onClick={() => setDrawerOpen(true)}
         >
-          Pharma
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center gap-x-2 py-3 px-4 text-sm text-start font-medium border border-gray-200 text-gray-800 hover:text-blue-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg focus:z-10 disabled:opacity-50 disabled:pointer-events-none"
-        >
-          Engineering
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center gap-x-2 py-3 px-4 text-sm text-start font-medium border border-gray-200 text-gray-800 hover:text-blue-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg focus:z-10 disabled:opacity-50 disabled:pointer-events-none"
-        >
-          Nursing
-        </button>
-        <button
-          type="button"
-          className="inline-flex items-center gap-x-2 py-3 px-4 text-sm text-start font-medium border border-gray-200 text-gray-800 hover:text-blue-600 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg focus:z-10 disabled:opacity-50 disabled:pointer-events-none"
-        >
-          Physiology
-        </button> */}
-        <Card className="overflow-hidden max-w-xs cursor-pointer" onClick={() => setModalOpen(true)}>
           <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
+          </div>
+          <CardFooter className="text-lg font-semibold pt-2">Pharma</CardFooter>
+        </Card>
+
+        <Card
+          className="overflow-hidden cursor-pointer max-w-xs"
+          onClick={() => setDrawerOpen(true)}
+        >
+          <div>
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
           </div>
           <CardFooter className="text-lg font-semibold pt-2">
-          Pharma
+            Engineering
           </CardFooter>
         </Card>
 
-        <Card className="overflow-hidden cursor-pointer max-w-xs" onClick={() => setModalOpen(true)}>
+        <Card
+          className="overflow-hidden max-w-xs cursor-pointer"
+          onClick={() => setDrawerOpen(true)}
+        >
           <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
           </div>
           <CardFooter className="text-lg font-semibold pt-2">
-          Engineering
-          </CardFooter>
-        </Card>
-
-        <Card className="overflow-hidden max-w-xs cursor-pointer" onClick={() => setModalOpen(true)}>
-          <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
-          </div>
-          <CardFooter className="text-lg font-semibold pt-2">
-          Physiology
+            Physiology
           </CardFooter>
         </Card>
       </div>

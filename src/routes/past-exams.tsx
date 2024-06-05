@@ -96,7 +96,7 @@ export default function PastExams() {
             <span className="font-semibold text-3xl text-blue-600">54</span>
           </CardContent>
         </Card>
-      </div>
+    </div>
       <div className="bg-white shadow p-5 rounded-md">
       <Drawer open={drawerOpen} setOpen={setDrawerOpen}>
         <div>
@@ -168,3 +168,5 @@ export default function PastExams() {
     </>
   );
 }
+
+</div>
