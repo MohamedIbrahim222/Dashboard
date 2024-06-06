@@ -15,7 +15,7 @@ export default function PastExams() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <>
+    <div>
       <div className="flex justify-evenly mb-3">
         <Card className="bg-white">
           <CardHeader>
@@ -165,8 +165,7 @@ export default function PastExams() {
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   );
 }
 
-</div>

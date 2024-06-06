@@ -13,23 +13,37 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Quiz() {
-  const [questionCount, setQuestionCount] = useState(0);
-  const [modulesCount, setModulesCount] = useState(0);
+  const [questionCount, setQuestionCount] = useState(1);
+  const [modulesCount, setModulesCount] = useState(1);
   const [modules, setModules] = useState([]);
 
-  const courseId = 'e9d0d03b-334a-4e75-80d2-4a6af2551a62';
-  const instructorId = '45fcd16d-64ee-455e-b140-369f2c5856db';
+  const [metaData, setMetaData] = useState({name: '', description: '', duration: 0, grade: 0, startedDate: '', closedAt: ''});
+
+  const courseId = "e9d0d03b-334a-4e75-80d2-4a6af2551a62";
+  const instructorId = "45fcd16d-64ee-455e-b140-369f2c5856db";
 
   async function generateModules() {
-    const data = await axios.post(`http://localhost:5257/Api/V0.1/courses/${courseId}/instructors/${instructorId}/modules/GenerateModules`, {
-      numberOfModules: 1,
-      numberOfQuestionPerModule: 2,
-      questionBank: "",
-      isSaveUploadedQuestions: false
-    }, {headers: {
-      'Content-Type': 'application/json',
-    }});
-    console.log(data);
+    const data = await axios.post(
+      `http://localhost:5257/Api/V0.1/courses/${courseId}/instructors/${instructorId}/modules/GenerateModules`,
+      {
+        numberOfModules: modulesCount,
+        numberOfQuestionPerModule: questionCount,
+        questionBank: "",
+        isSaveUploadedQuestions: false,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    setModules(data.data);
+  }
+
+  async function createQuiz() {
+    const data = await axios.post(
+      `http://localhost:5257/Api/V0.1/courses/${courseId}/instructors/${instructorId}/quizzes/createquiz`);
+
   }
 
   return (
@@ -38,65 +52,50 @@ export default function Quiz() {
         <div className="card flex justify-between mb-3">
           <div>
             <label htmlFor="q-count">Questions count</label>
-            <Input type="number" value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))} />
+            <Input
+              type="number"
+              value={questionCount}
+              onChange={(e) => setQuestionCount(Number(e.target.value))}
+            />
           </div>
           <div>
             <label htmlFor="m-count">Modules count</label>
-            <Input type="number" value={modulesCount} onChange={e => setModulesCount(Number(e.target.value))} />
+            <Input
+              type="number"
+              value={modulesCount}
+              onChange={(e) => setModulesCount(Number(e.target.value))}
+            />
           </div>
         </div>
         <div className="flex justify-between items-center mb-2">
           <h1 className="font-semibold text-2xl mb-3">Questions</h1>
-          <button className="btn btn-blue" onClick={generateModules}>Generate modules</button>
+          <button className="btn btn-blue" onClick={generateModules}>
+            Generate modules
+          </button>
         </div>
 
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs defaultValue="account" className="w-xl">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+            {modules?.data?.$values?.map((a) => (
+              <TabsTrigger key={a.name} value={a.name}>
+                {a.name}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <TabsContent value="account">
-            <Card>
-              <CardHeader>
-                <CardTitle>Account</CardTitle>
-                <CardDescription>
-                  Make changes to your account here. Click save when you're
-                  done.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <Input id="name" defaultValue="Pedro Duarte" />
-                </div>
-                <div className="space-y-1">
-                  <Input id="username" defaultValue="@peduarte" />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="password">
-            <Card>
-              <CardHeader>
-                <CardTitle>Password</CardTitle>
-                <CardDescription>
-                  Change your password here. After saving, you'll be logged out.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <Input id="current" type="password" />
-                </div>
-                <div className="space-y-1">
-                  <Input id="new" type="password" />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
 
-        <Question question="What is the capital of Nigeria?" points={10} />
-        <Question question="What is the capital of Ghana?" points={10} />
-        <Question question="What is the capital of Kenya?" points={10} />
+          {modules?.data?.$values?.map((a) => (
+            <TabsContent value={a.name} className="mt-10">
+              {a.questions?.$values?.map((q) => (
+                <Card className="mb-3">
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>{q.text}</CardTitle>
+                    <span className="badge badge-blue">{q.points}</span>
+                  </CardHeader>
+                </Card>
+              ))}
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
       <div className="w-2/5">
         <h1 className="font-semibold text-2xl mb-3">Meta data</h1>

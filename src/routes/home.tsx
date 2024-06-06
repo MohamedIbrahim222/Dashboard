@@ -57,7 +57,7 @@ export default function Home() {
           >
             From excel
           </button>
-          <Link to={'/quiz'} className="btn btn-blue block w-full text-center">
+          <Link to={"/quiz"} className="btn btn-blue block w-full text-center">
             Generate from bank
           </Link>
         </div>
@@ -67,7 +67,7 @@ export default function Home() {
           <Link
             type="button"
             className="btn btn-blue mr-3"
-            to={'/10/past-exams'}
+            to={"/10/past-exams"}
           >
             Show past exams
           </Link>
@@ -126,10 +126,13 @@ export default function Home() {
           onClick={() => setModalOpen(true)}
         >
           <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
           </div>
           <CardFooter className="text-lg font-semibold pt-2">
-            Pharma
+          <p className="w-full text-center">Pharma</p>
           </CardFooter>
         </Card>
 
@@ -138,10 +141,13 @@ export default function Home() {
           onClick={() => setModalOpen(true)}
         >
           <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
           </div>
           <CardFooter className="text-lg font-semibold pt-2">
-            Nursing 1
+            <p className="w-full text-center">Nursing</p>
           </CardFooter>
         </Card>
 
@@ -150,10 +156,13 @@ export default function Home() {
           onClick={() => setModalOpen(true)}
         >
           <div>
-            <img src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg" alt="" />
+            <img
+              src="https://www.teachtreefruits.com/wp-content/uploads/2023/03/6c9a136a729cbdce51a52f6430b127755741251d1.jpg"
+              alt=""
+            />
           </div>
           <CardFooter className="text-lg font-semibold pt-2">
-            Physiology
+          <p className="w-full text-center">Physiology</p>
           </CardFooter>
         </Card>
       </div>

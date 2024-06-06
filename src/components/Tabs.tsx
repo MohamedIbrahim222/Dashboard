@@ -1,4 +1,4 @@
-// import "@preline/tabs";
+ import "@preline/tabs";
 
 export function Tab({id, children}: {id: string, children: React.ReactNode}) {
   return (

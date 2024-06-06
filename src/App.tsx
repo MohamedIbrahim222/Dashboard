@@ -4,8 +4,10 @@ import Root from "./routes/root";
 import Home from "./routes/home";
 import Quiz from "./routes/quiz";
 import PastExams from "./routes/past-exams";
+import AdminHome from "./routes/admin-home";
 import { Login } from "./routes/login";
 import Reset from "./routes/reset";
+import PublishQuiz from "./routes/publish-quiz";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
         element: <Quiz />,
       },
       {
+        path: ":id/quiz",
+        element: <PublishQuiz />,
+      },
+      {
         path: ":id/past-exams",
         element: <PastExams />,
       },
@@ -35,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "reset",
         element: <Reset />
+      },
+      {
+        path: "admin-home",
+        element: <AdminHome />
       }
     ],
   },
