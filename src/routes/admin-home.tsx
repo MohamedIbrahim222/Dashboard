@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 export default function AdminHome() {
   return (
     <div>
-      <div className="flex justify-evenly mb-3">
+      <div className="flex justify-evenly mb-5">
         <Card className="bg-white">
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -31,12 +31,12 @@ export default function AdminHome() {
                 />
               </svg>
 
-              <p className="pl-3">Number of stutends in course</p>
+              <p className="pl-3">Number of students</p>
             </CardTitle>
           </CardHeader>
 
           <CardContent className="text-center">
-            <span className="font-semibold text-3xl text-blue-600">100</span>
+            <span className="font-semibold text-3xl text-blue-600">2214</span>
           </CardContent>
         </Card>
 
@@ -58,12 +58,12 @@ export default function AdminHome() {
                 />
               </svg>
 
-              <p className="pl-3">Number of assignments</p>
+              <p className="pl-3">Number of Doctors</p>
             </CardTitle>
           </CardHeader>
 
           <CardContent className="text-center">
-            <span className="font-semibold text-3xl text-blue-600">135</span>
+            <span className="font-semibold text-3xl text-blue-600">33</span>
           </CardContent>
         </Card>
 
@@ -85,21 +85,17 @@ export default function AdminHome() {
                 />
               </svg>
 
-              <p className="pl-3">Number of exams</p>
+              <p className="pl-3">Number of Cources</p>
             </CardTitle>
           </CardHeader>
 
           <CardContent className="text-center">
-            <span className="font-semibold text-3xl text-blue-600">54</span>
+            <span className="font-semibold text-3xl text-blue-600">40</span>
           </CardContent>
         </Card>
       </div>
+      
       <div className="flex justify-evenly mb-5">
-        <Upload />
-        <Upload />
-        <Upload />
-      </div>
-      <div className="flex justify-evenly">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Add student</CardTitle>
@@ -118,7 +114,7 @@ export default function AdminHome() {
               </div>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-center">
             <button className="btn btn-blue">Add</button>
           </CardFooter>
         </Card>
@@ -141,8 +137,8 @@ export default function AdminHome() {
               </div>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-between">
-            <button className="btn btn-blue">Add</button>
+          <CardFooter className="flex justify-center">
+            <button className=" btn btn-blue">Add</button>
           </CardFooter>
         </Card>
 
@@ -164,10 +160,16 @@ export default function AdminHome() {
               </div>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-center">
             <button className="btn btn-blue">Add</button>
           </CardFooter>
         </Card>
+        
+      </div>
+      <div className="flex justify-evenly mb-5">
+        <Upload />
+        <Upload />
+        <Upload />
       </div>
     </div>
   );
@@ -178,9 +180,9 @@ function Upload() {
     <div className="space-y-2">
       <label
         htmlFor="af-submit-app-upload-images"
-        className="inline-block text-sm font-medium text-gray-800 mt-2.5 dark:text-neutral-200"
+        className="inline-block text-sm font-medium text-gray-800 mt-2.5 dark:text-neutral-200 flex justify-center"
       >
-        Upload students
+        Upload File
       </label>
 
       <label
@@ -214,7 +216,6 @@ function Upload() {
           </span>
         </span>
         <span className="mt-1 block text-xs text-gray-500 dark:text-neutral-500">
-          Maximum file size is 2 MB
         </span>
       </label>
     </div>
