@@ -1,4 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster"
 
 export function Root() {
   return (
@@ -98,6 +99,7 @@ export function Root() {
         </nav>
       </header>
       <main className="max-w-7xl mx-auto py-5">
+        <Toaster />
         <Outlet />
       </main>
     </div>

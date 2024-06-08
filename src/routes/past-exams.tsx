@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import Api from "../Api";
 
 export default function PastExams() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -23,21 +23,27 @@ export default function PastExams() {
   const instructorId = "45fcd16d-64ee-455e-b140-369f2c5856db";
 
   useEffect(() => {
-    const fetchQuizzes = async () => {
-      try {
-        const response = await axios.get(
-          `/Api/V0.1/courses/${courseId}/instructors/${instructorId}/quizzes/AllInstructorQuizzes`
-        );
-        setQuizzes(response.data.data || []);
-      } catch (error) {
-        console.error("Error fetching quizzes:", error);
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchQuizzes();
   }, [courseId, instructorId]);
+
+  const fetchQuizzes = async () => {
+    try {
+      const response = await Api.get(
+        `/Api/V0.1/courses/${courseId}/instructors/${instructorId}/quizzes/AllInstructorQuizzes`
+      );
+      setQuizzes(response.data.data || []);
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  async function deleteQuiz(quizId: string) {
+    await Api.delete(`/Api/V0.1/courses/${courseId}/instructors/${instructorId}/quizzes/${quizId}/DeleteQuiz`);
+    fetchQuizzes();
+  }
 
   const mockQuizzes = [
     {
@@ -175,8 +181,10 @@ export default function PastExams() {
             <TableRow>
               <TableHead>Quiz Name</TableHead>
               <TableHead>Quiz Description</TableHead>
-              <TableHead>Quiz Type</TableHead>
+              <TableHead>Quiz Date</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="text-right">Total Questions</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -192,14 +200,18 @@ export default function PastExams() {
                   {error}
                 </TableCell>
               </TableRow>
-            ) : quizzes.length > 0 ? (
-              quizzes.map((quiz) => (
+            ) : quizzes?.$values?.length > 0 ? (
+              quizzes?.$values.map((quiz) => (
                 <TableRow key={quiz.id}>
                   <TableCell className="font-medium">{quiz.name}</TableCell>
                   <TableCell>{quiz.description}</TableCell>
-                  <TableCell>{quiz.type}</TableCell>
+                  <TableCell>{new Date(quiz.createdDate).toLocaleDateString()}</TableCell>
+                  <TableCell>{quiz.quizStatus}</TableCell>
                   <TableCell className="text-right">
                     {quiz.totalQuestions}
+                  </TableCell>
+                  <TableCell>
+                    <button className="btn btn-red" onClick={() => deleteQuiz(quiz.id)}>Delete</button>
                   </TableCell>
                 </TableRow>
               ))
