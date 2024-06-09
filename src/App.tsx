@@ -8,6 +8,7 @@ import AdminHome from "./routes/admin-home";
 import { Login } from "./routes/login";
 import Reset from "./routes/reset";
 import PublishQuiz from "./routes/publish-quiz";
+import ResetPassword from "./routes/password";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "admin-home",
         element: <AdminHome />
+      },
+      {
+        path: "password-reset",
+        element: <ResetPassword/>
       }
     ],
   },

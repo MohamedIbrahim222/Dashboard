@@ -1,4 +1,28 @@
+import React, { useState } from "react";
+import axios from "axios";
+
 export default function Reset() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8085/auth/forget", {
+        email,
+      });
+      setMessage("Reset Password Link Sent Successfully");
+      setError("");
+      console.log(response.data);
+    } catch (error) {
+      setMessage("");
+      setError("Error sending reset password link");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm max-w-xl mx-auto">
       <div className="p-4 sm:p-7">
@@ -10,7 +34,7 @@ export default function Reset() {
             Remember your password?
             <a
               className="text-blue-600 decoration-2 hover:underline font-medium"
-              href="../examples/html/signin.html"
+              href="/login"
             >
               Sign in here
             </a>
@@ -18,10 +42,13 @@ export default function Reset() {
         </div>
 
         <div className="mt-5">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm mb-2 font-semibold">
+                <label
+                  htmlFor="email"
+                  className="block text-sm mb-2 font-semibold"
+                >
                   Email address
                 </label>
                 <div className="relative">
@@ -30,6 +57,8 @@ export default function Reset() {
                     id="email"
                     name="email"
                     className="form-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     aria-describedby="email-error"
                   />
@@ -62,6 +91,12 @@ export default function Reset() {
               </button>
             </div>
           </form>
+          {message && (
+            <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
+          )}
+          {error && (
+            <p className="mt-4 text-center text-sm text-red-600">{error}</p>
+          )}
         </div>
       </div>
     </div>

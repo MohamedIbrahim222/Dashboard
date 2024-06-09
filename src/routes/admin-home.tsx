@@ -7,10 +7,80 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-//import { useState } from "react";
-//import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
+// {
+//   "email": "salma.khaled963@gmail.com",
+//   "academicId": "202120935",
+//   "displayName": "Salma",
+//   "arabicName": "سلمى",
+//   "gender": "false",
+//   "hashedPassowrd": "Aa1235678@",
+//   "departmentName": "CS",
+//   "group": "A",
+//   "role": "Student"
+// }
 
 export default function AdminHome() {
+  const [student, setStudent] = useState({
+    email: "",
+    academicId: "",
+    displayName: "",
+    arabicName: "",
+    gender: "",
+    hashedPassowrd: "",
+    departmentName: "",
+    group: "",
+    role: "Student",
+  });
+
+  const [doctor, setDoctor] = useState({
+    email: "",
+    academicId: "",
+    displayName: "",
+    arabicName: "",
+    gender: "",
+    hashedPassowrd: "",
+    departmentName: "",
+    role: "Instructor",
+  });
+
+  const handleChange = (e, role) => {
+    const { name, value } = e.target;
+    if (role === "Student") {
+      setStudent((prev) => ({ ...prev, [name]: value }));
+    } else if (role === "Instructor") {
+      setDoctor((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const addStudent = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8085/auth/register",
+        student
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addDoctor = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8085/register",
+        doctor
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="flex justify-evenly mb-5">
@@ -94,29 +164,38 @@ export default function AdminHome() {
           </CardContent>
         </Card>
       </div>
-      
+
       <div className="flex justify-evenly mb-5">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Add student</CardTitle>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={addStudent}>
               <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="name">Id</label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="name">Name</label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
+                {Object.keys(student).map((key) => (
+                  <div key={key} className="flex flex-col space-y-1.5">
+                    <label htmlFor={key}>
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                    </label>
+                    <Input
+                      id={key}
+                      name={key}
+                      value={student[key]}
+                      onChange={(e) => handleChange(e, "Student")}
+                      placeholder={`Enter ${key}`}
+                      type={key === "hashedPassowrd" ? "password" : "text"}
+                    />
+                  </div>
+                ))}
               </div>
+              <CardFooter className="flex justify-center">
+                <button type="submit" className="btn btn-blue">
+                  Add
+                </button>
+              </CardFooter>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <button className="btn btn-blue">Add</button>
-          </CardFooter>
         </Card>
 
         <Card className="w-[350px]">
@@ -124,22 +203,31 @@ export default function AdminHome() {
             <CardTitle>Add doctor</CardTitle>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={addDoctor}>
               <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="name">Id</label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="name">Name</label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
+                {Object.keys(doctor).map((key) => (
+                  <div key={key} className="flex flex-col space-y-1.5">
+                    <label htmlFor={key}>
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                    </label>
+                    <Input
+                      id={key}
+                      name={key}
+                      value={doctor[key]}
+                      onChange={(e) => handleChange(e, "Instructor")}
+                      placeholder={`Enter ${key}`}
+                      type={key === "hashedPassword" ? "password" : "text"}
+                    />
+                  </div>
+                ))}
               </div>
+              <CardFooter className="flex justify-center">
+                <button type="submit" className="btn btn-blue">
+                  Add
+                </button>
+              </CardFooter>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <button className=" btn btn-blue">Add</button>
-          </CardFooter>
         </Card>
 
         <Card className="w-[350px]">
@@ -164,7 +252,6 @@ export default function AdminHome() {
             <button className="btn btn-blue">Add</button>
           </CardFooter>
         </Card>
-        
       </div>
       <div className="flex justify-evenly mb-5">
         <Upload />
@@ -215,8 +302,7 @@ function Upload() {
             drag 'n drop'
           </span>
         </span>
-        <span className="mt-1 block text-xs text-gray-500 dark:text-neutral-500">
-        </span>
+        <span className="mt-1 block text-xs text-gray-500 dark:text-neutral-500"></span>
       </label>
     </div>
   );
